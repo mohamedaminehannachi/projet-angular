@@ -1,61 +1,39 @@
-﻿<section class="bg-dark text-white py-5">
-  <div class="container py-4">
-    <p class="text-info text-uppercase fw-semibold">Apprendre · Partager · Se rencontrer</p>
-    <h1 class="display-4 fw-bold">Découvrez nos conférences</h1>
-    <p class="lead col-lg-8">Des rencontres autour du numérique pour découvrir de nouvelles idées et échanger avec des passionnés.</p>
-    <a href="#conferences" class="btn btn-primary btn-lg mt-3">Voir les conférences &darr;</a>
-  </div>
-</section>
+<section id="conferences" class="container py-4">
+  <div class="border-start border-success border-3 rounded bg-white p-4">
+    <h2 class="h3">Liste des conférences à venir</h2>
+    <p>Cliquez sur le titre d’une conférence pour afficher ses détails.</p>
 
-<!-- Liste statique : picture, title, date, adress, available_Places -->
-<section id="conferences" class="container py-5" aria-labelledby="conferences-title">
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-    <div><p class="text-primary fw-semibold mb-1">À VOTRE AGENDA</p><h2 id="conferences-title" class="fw-bold">Les prochaines conférences</h2></div>
-    <span class="badge rounded-pill text-bg-primary px-3 py-2">3 conférences</span>
-  </div>
-  <div class="row g-4">
-    <div class="col-md-6 col-lg-4">
-      <article class="card h-100 border-0 shadow-sm overflow-hidden">
-        <svg class="card-img-top bg-primary" viewBox="0 0 640 360" role="img" aria-label="Illustration de la conférence Angular">
-          <rect width="640" height="360" fill="#203c77"/><circle cx="540" cy="65" r="150" fill="#2d5197"/><path d="M270 95L195 230H225L240 200H300L315 230H345L270 95ZM253 175L270 140L287 175Z" fill="#fff"/><text x="45" y="305" fill="#bcd3ff" font-size="28" font-family="Arial">ANGULAR &amp; WEB</text>
-        </svg>
-        <div class="card-body p-4 d-flex flex-column">
-          <span class="badge text-bg-success align-self-start mb-3">Places disponibles</span>
-          <h3 class="h5 fw-bold">Angular &amp; le web de demain</h3>
-          <p class="text-primary fw-semibold mt-2"><time datetime="2027-02-18">18 février 2027</time></p>
-          <p class="text-secondary">Adresse : Cité des Sciences, Tunis</p>
-          <p class="border-top pt-3 mt-auto mb-0"><strong class="text-success">48</strong> places disponibles</p>
+    <label for="recherche-conference" class="form-label">Rechercher par titre</label>
+    <input id="recherche-conference" class="form-control mb-3" type="search"
+      placeholder="Tapez le titre de la conférence" [(ngModel)]="recherche">
+
+    <div class="row g-3">
+      @for (conference of conferencesFiltrees(); track conference.id) {
+        @let placesRestantes = conference.maxParticipants - conference.nbParticipants;
+        <div class="col-md-4">
+          <article class="card bg-light h-100 p-3">
+            <details class="mb-3">
+              <summary class="h5 mb-0">{{ conference.title | uppercase }}</summary>
+              <p class="mt-2 mb-0">{{ conference.description }}</p>
+            </details>
+            <p><strong>Date :</strong> {{ conference.date | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Lieu :</strong> {{ conference.place }}</p>
+            <p><strong>Places restantes :</strong> {{ placesRestantes }}</p>
+            <button type="button" class="btn align-self-start"
+              [class.btn-success]="placesRestantes >= 10"
+              [class.btn-warning]="placesRestantes > 0 && placesRestantes < 10"
+              [class.btn-danger]="placesRestantes === 0"
+              [disabled]="placesRestantes === 0"
+              (click)="inscrire(conference.id)">
+              S’inscrire
+            </button>
+          </article>
         </div>
-      </article>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <article class="card h-100 border-0 shadow-sm overflow-hidden">
-        <svg class="card-img-top" viewBox="0 0 640 360" role="img" aria-label="Illustration de la conférence Intelligence artificielle">
-          <rect width="640" height="360" fill="#164e4c"/><circle cx="540" cy="65" r="150" fill="#216c67"/><g stroke="#96e5d7" stroke-width="4"><path d="M250 100L350 125L390 205L290 235L210 175Z M250 100L290 235M350 125L210 175M350 125L290 235" fill="none"/></g><g fill="#fff"><circle cx="250" cy="100" r="12"/><circle cx="350" cy="125" r="12"/><circle cx="390" cy="205" r="12"/><circle cx="290" cy="235" r="12"/><circle cx="210" cy="175" r="12"/></g><text x="45" y="305" fill="#b6eee1" font-size="28" font-family="Arial">INTELLIGENCE ARTIFICIELLE</text>
-        </svg>
-        <div class="card-body p-4 d-flex flex-column">
-          <span class="badge text-bg-success align-self-start mb-3">Places disponibles</span>
-          <h3 class="h5 fw-bold">Intelligence artificielle : de l'idée au projet</h3>
-          <p class="text-primary fw-semibold mt-2"><time datetime="2027-03-06">6 mars 2027</time></p>
-          <p class="text-secondary">Adresse : Technopole El Ghazala, Ariana</p>
-          <p class="border-top pt-3 mt-auto mb-0"><strong class="text-success">25</strong> places disponibles</p>
-        </div>
-      </article>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <article class="card h-100 border-0 shadow-sm overflow-hidden">
-        <svg class="card-img-top" viewBox="0 0 640 360" role="img" aria-label="Illustration de la conférence Design numérique">
-          <rect width="640" height="360" fill="#6c3c74"/><circle cx="540" cy="65" r="150" fill="#854c8e"/><rect x="210" y="90" width="140" height="140" rx="22" fill="#efbdde"/><circle cx="350" cy="160" r="70" fill="#b790e5"/><path d="M225 230L295 110L365 230Z" fill="#fff" fill-opacity="0.8"/><text x="45" y="305" fill="#f0d3f0" font-size="28" font-family="Arial">DESIGN &amp; CRÉATIVITÉ</text>
-        </svg>
-        <div class="card-body p-4 d-flex flex-column">
-          <span class="badge text-bg-secondary align-self-start mb-3">Complet</span>
-          <h3 class="h5 fw-bold">Design &amp; expériences numériques</h3>
-          <p class="text-primary fw-semibold mt-2"><time datetime="2027-03-20">20 mars 2027</time></p>
-          <p class="text-secondary">Adresse : Centre culturel, Sousse</p>
-          <p class="border-top pt-3 mt-auto mb-0"><strong class="text-secondary">0</strong> place disponible</p>
-        </div>
-      </article>
+      } @empty {
+        <p class="mb-0">
+          {{ conferences().length === 0 ? 'Aucune conférence enregistrée.' : 'Aucune conférence ne correspond à votre recherche.' }}
+        </p>
+      }
     </div>
   </div>
-  <p class="small text-secondary mt-4">Conférences fictives présentées dans le cadre d'un projet pédagogique.</p>
 </section>

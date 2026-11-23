@@ -1,20 +1,12 @@
 import { Component } from '@angular/core';
+import { UserProfile } from './user-profile';
+import { FriendsList } from './friends-list';
+import { Notifications } from './notifications';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [UserProfile, FriendsList, Notifications],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
-  title :string;
-  state:boolean;
-  constructor(){this.title='Home 4DAS10'
-    this.state=false;
-  }
- change():void{
-  this.title='Home 4Das9';
-      this.state=true;
-
- }
-}
+export class Home {}
